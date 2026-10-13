@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ShopEase - E-Commerce</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+<header>
+  <nav class="nav">
+    <a class="brand" href="/">ShopEase</a>
+    <div class="nav-links">
+      <a href="#products">Products</a>
+      <a href="#about">About</a>
+      <a href="admin.html">Admin CRUD</a>
+      <button id="cartBtn">Cart (<span id="cartCount">0</span>)</button>
+    </div>
+  </nav>
+</header>
+
+<section class="hero">
+  <div>
+    <p class="tag">FULL-STACK E-COMMERCE</p>
+    <h1>Simple shopping, <span>better experience.</span></h1>
+    <p>Responsive product browsing, search, cart and order checkout powered by Node.js, Express and SQLite.</p>
+    <a class="primary" href="#products">Shop Now</a>
+  </div>
+</section>
+
+<section class="toolbar" id="products">
+  <input id="search" type="search" placeholder="Search products...">
+  <select id="category"><option value="">All Categories</option></select>
+</section>
+
+<main id="productGrid" class="grid"></main>
+
+<section id="about" class="about">
+  <h2>Project Features</h2>
+  <div class="features">
+    <div><b>Responsive UI</b><span>Mobile-friendly design</span></div>
+    <div><b>Database</b><span>SQLite product & order data</span></div>
+    <div><b>CRUD</b><span>Admin product management</span></div>
+    <div><b>Validation</b><span>Search and checkout validation</span></div>
+  </div>
+</section>
+
+<aside id="cartPanel" class="cart-panel">
+  <div class="cart-head"><h2>Your Cart</h2><button id="closeCart">×</button></div>
+  <div id="cartItems"></div>
+  <div class="cart-total">Total: ₹<span id="cartTotal">0</span></div>
+  <button class="primary full" id="checkoutBtn">Checkout</button>
+</aside>
+<div id="overlay" class="overlay"></div>
+
+<div id="checkoutModal" class="modal">
+  <div class="modal-box">
+    <button class="close-modal" id="closeModal">×</button>
+    <h2>Place Order</h2>
+    <form id="checkoutForm">
+      <input id="customerName" placeholder="Full name" required>
+      <input id="email" type="email" placeholder="Email" required>
+      <textarea id="address" placeholder="Delivery address" required></textarea>
+      <button class="primary full">Place Order</button>
+    </form>
+    <p id="checkoutMessage"></p>
+  </div>
+</div>
+
+<footer>ShopEase — Internship E-Commerce Website Project</footer>
+<script src="script.js"></script>
+</body>
+</html>

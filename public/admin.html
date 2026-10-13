@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>ShopEase Admin</title><link rel="stylesheet" href="style.css"></head>
+<body>
+<header><nav class="nav"><a class="brand" href="/">ShopEase Admin</a><a href="/">← Store</a></nav></header>
+<main class="admin">
+<h1>Product Management (CRUD)</h1>
+<p>Add, edit and delete products. This page demonstrates database CRUD operations.</p>
+<form id="productForm">
+<input type="hidden" id="id">
+<input id="name" placeholder="Product name" required>
+<input id="cat" placeholder="Category" required>
+<input id="price" type="number" min="0" placeholder="Price" required>
+<input id="image" placeholder="Image URL" required>
+<input id="stock" type="number" min="0" placeholder="Stock" required>
+<textarea id="desc" placeholder="Description"></textarea>
+<button class="primary" type="submit">Save Product</button>
+<button type="button" id="resetBtn">Clear</button>
+</form>
+<table><thead><tr><th>ID</th><th>Product</th><th>Category</th><th>Price</th><th>Stock</th><th>Actions</th></tr></thead><tbody id="rows"></tbody></table>
+</main>
+<script>
+let data=[];
+const esc=v=>String(v).replace(/[&<>"']/g,x=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'}[x]));
+async function load(){const r=await fetch('/api/products');data=await r.json();rows.innerHTML=data.map(p=>`<tr><td>${p.id}</td><td>${esc(p.name)}</td><td>${esc(p.category)}</td><td>₹${p.price}</td><td>${p.stock}</td><td><button class="edit" onclick="edit(${p.id})">Edit</button> <button class="delete" onclick="del(${p.id})">Delete</button></td></tr>`).join('')}
+function edit(id){const p=data.find(x=>x.id===id);document.getElementById('id').value=p.id;name.value=p.name;cat.value=p.category;price.value=p.price;image.value=p.image;stock.value=p.stock;desc.value=p.description;scrollTo(0,0)}
+async function del(id){if(confirm('Delete this product?')){await fetch('/api/products/'+id,{method:'DELETE'});load()}}
+productForm.onsubmit=async e=>{e.preventDefault();const id=document.getElementById('id').value;const body={name:name.value,category:cat.value,price:+price.value,image:image.value,stock:+stock.value,description:desc.value};const r=await fetch('/api/products'+(id?'/'+id:''),{method:id?'PUT':'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(body)});if(!r.ok)alert((await r.json()).error);else{productForm.reset();document.getElementById('id').value='';load()}}
+resetBtn.onclick=()=>productForm.reset();load();
+</script>
+</body>
+</html>
